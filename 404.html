@@ -12,6 +12,33 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- TEMPORARY fraud-warning banner. The inline script at the end of this
+       block retires it automatically after the expiry date; deleting the whole
+       block from all four pages, plus the banner section and --alert token in
+       styles.css, is the permanent removal. -->
+  <details class="fraud-banner" id="fraud-banner">
+    <summary>
+      <span class="fraud-lede"><strong class="fraud-flag">Fraud warning:</strong> someone is impersonating Frost River Capital with fake remote job offers. We never send checks to applicants and never ask anyone to purchase equipment.</span>
+      <span class="fraud-toggle" aria-hidden="true"><span class="fraud-show">Read more</span><span class="fraud-hide">Show less</span></span>
+    </summary>
+    <div class="col fraud-body">
+      <p>A third party is using our name and logo to run a job scam. If you received a job offer from us, please read this.</p>
+      <p>We do not send checks to applicants, for equipment or any other reason. We do not ask anyone to purchase equipment, software, or supplies. We do not recruit by text message. We do not conduct interviews over Microsoft Teams chat. We do not hire remote appointment schedulers, chat moderators, or executive assistants. All of our hiring is local and in person, in the Denver and Boulder areas.</p>
+      <p>Legitimate email from us comes only from @frostrivercapital.com, @merrymaidsdenver.com, or @merrymaids.pro. The domain frostrivercapitals.com, with an "s", is not ours and is being used fraudulently.</p>
+      <p>If you were contacted: do not deposit any check you receive. A check that clears can still be reversed weeks later, and you will owe your bank the full amount. Report it at <a href="https://www.ic3.gov/">ic3.gov</a>, and feel free to contact Rob directly at <a href="mailto:rob@frostrivercapital.com">rob@frostrivercapital.com</a>.</p>
+    </div>
+    <script>
+      // Expiry (UTC) for the temporary fraud-warning banner: once the current time
+      // passes this instant the script removes the banner. If JavaScript is
+      // unavailable or this fails, the banner stays visible on purpose; deleting
+      // the banner markup is the permanent removal.
+      var FRAUD_BANNER_EXPIRY = '2026-08-21T06:00:00Z';
+      if (Date.now() > Date.parse(FRAUD_BANNER_EXPIRY)) {
+        var fraudBanner = document.getElementById('fraud-banner');
+        if (fraudBanner) fraudBanner.parentNode.removeChild(fraudBanner);
+      }
+    </script>
+  </details>
   <div class="col">
 
     <header class="subpage-header">

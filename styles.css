@@ -37,6 +37,7 @@
   --link: #3c5a72;
   --link-hover: #24384a;
   --link-underline: #b9c6d1;
+  --alert: #8f4522;      /* temporary fraud-warning banner */
   --serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
   --sans: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
@@ -252,4 +253,79 @@ a:hover { color: var(--link-hover); }
   line-height: 1.7;
   color: var(--body);
   text-wrap: pretty;
+}
+
+/* ---------- temporary fraud-warning banner ----------
+   Paired with the <details class="fraud-banner"> block at the top of
+   index.html, privacy.html, terms.html, and 404.html. The banner retires
+   itself via its inline expiry script; deleting those blocks, this section,
+   and the --alert token above is the permanent removal. */
+.fraud-banner {
+  background: var(--alert);
+  color: var(--bg);
+}
+.fraud-banner summary {
+  box-sizing: content-box;   /* mirror .col so the text lines up with the page column */
+  max-width: 620px;
+  margin-inline: auto;
+  padding: 12px 24px 13px;
+  font-size: 13px;
+  line-height: 1.5;
+  cursor: pointer;
+  list-style: none;
+}
+.fraud-banner summary::-webkit-details-marker { display: none; }
+.fraud-banner summary:focus-visible { outline: 2px solid var(--bg); outline-offset: -3px; }
+.fraud-flag {
+  font-weight: 400;          /* only the 400 weight is self-hosted */
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.fraud-toggle {
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(246, 243, 237, 0.55);
+}
+.fraud-banner .fraud-hide { display: none; }
+.fraud-banner[open] .fraud-show { display: none; }
+.fraud-banner[open] .fraud-hide { display: inline; }
+.fraud-toggle::after {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
+.fraud-banner[open] .fraud-toggle::after { transform: translateY(1px) rotate(-135deg); }
+.fraud-body {
+  padding-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.fraud-body p { margin: 0 0 12px; text-wrap: pretty; }
+.fraud-body p:last-child { margin-bottom: 0; }
+.fraud-banner a { color: var(--bg); text-decoration-color: rgba(246, 243, 237, 0.55); }
+.fraud-banner a:hover { color: #ffffff; text-decoration-color: #ffffff; }
+.fraud-banner a:focus-visible { outline: 2px solid var(--bg); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  .fraud-toggle::after { transition: transform 160ms ease; }
+  .fraud-banner[open] .fraud-body { animation: fraud-reveal 200ms ease; }
+  @keyframes fraud-reveal {
+    from { opacity: 0; transform: translateY(-4px); }
+  }
+}
+@media (max-width: 480px) {
+  /* The collapsed copy is 167 characters; to hold it to three lines on narrow
+     screens the type scales with the viewport and the toggle drops its text
+     label, leaving the rotating chevron as the affordance. */
+  .fraud-banner summary { font-size: clamp(10px, 3.13vw, 12.5px); line-height: 1.45; }
+  .fraud-flag { letter-spacing: 0.05em; }
+  .fraud-banner .fraud-show { display: none; }
+  .fraud-banner[open] .fraud-hide { display: none; }
+  .fraud-toggle::after { width: 6px; height: 6px; margin-left: 2px; }
+  .fraud-body { font-size: 12.5px; }
 }
